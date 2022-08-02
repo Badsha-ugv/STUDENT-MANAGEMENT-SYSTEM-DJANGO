@@ -1,0 +1,89 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<div class="jumbotron m-3">
+  <h3>Update Profile</h3>
+  {% if messages %} {% for message in messages %}
+
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+<div class="card m-3 p-3">
+  <form
+    action="{% url 'profile_update_form' %}"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleInputPassword1">Profile Pic </label>
+      <input
+        type="file"
+        class="form-control"
+        name="profile_pic"
+        id="exampleInputPassword1"
+        value="{{user.profile_pic}}"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">First Name </label>
+      <input
+        type="text"
+        value="{{ user.first_name }}"
+        class="form-control"
+        name="first_name"
+        id="exampleInputPassword1"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Last Name </label>
+      <input
+        type="text"
+        value="{{ user.last_name }}"
+        class="form-control"
+        name="last_name"
+        id="exampleInputPassword1"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Username </label>
+      <input
+        type="text"
+        class="form-control"
+        value="{{ user.username }}"
+        name="username"
+        readonly
+        id="exampleInputPassword1"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Email </label>
+      <input
+        type="email"
+        class="form-control"
+        value="{{ user.email }}"
+        name="email"
+        readonly
+        id="exampleInputPassword1"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">password </label>
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        id="exampleInputPassword1"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}

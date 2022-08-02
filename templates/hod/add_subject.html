@@ -1,0 +1,57 @@
+{% extends 'base.html' %} 
+
+{% block content %}  
+
+<div class="jumbotron m-3">
+  <h3>Add Subject </h3>
+  {% include 'common_files/messages.html' %} 
+</div>
+
+<div class="card m-3 p-3">
+  <form
+    action=""
+    method="POST"
+  >
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="exampleInputPassword1">Subject Name </label>
+      <input
+        type="text"
+        class="form-control"
+        name="subject_name"
+        id="exampleInputPassword1"
+        required
+      />
+    </div>
+    
+
+    
+    <div class="form-group">
+        <label>Staff</label>
+            <select class="form-control" name="staff" required>
+                <option>Select Staff</option>
+               {% for staff in staff_list %} 
+                <option value="{{ staff.id }}">{{ staff.user.first_name }} &nbsp; {{ staff.user.last_name }}</option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+
+    <div class="form-group">
+        <label>Course</label>
+            <select class="form-control" name="course" required>
+                <option>Select Course</option>
+               {% for course in courses %} 
+                <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Subject</button>
+  </form>
+</div>
+
+
+{% endblock %}  

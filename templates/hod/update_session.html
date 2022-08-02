@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+
+<div class="card m-3 p-3">
+    <form action="" method="POST">
+        {% csrf_token %} 
+        <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label>Session Start </label>
+                <div>
+                    
+                    <input type="date" class="form-control" name="start_session" value="{{ session.start_date }}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label>Session End </label>
+                <div>
+                    <input type="date" class="form-control" name="end_session"value="{{ session.end_date }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Update Session" class="btn btn-primary " >
+    </form>
+</div>
+
+{% endblock %} 

@@ -1,0 +1,155 @@
+{% extends 'base.html' %}  
+
+{% block content %} 
+
+<div class="content container-fluid">
+               <div class="page-header">
+                  <div class="row align-items-center">
+                     <div class="col">
+                        <h3 class="page-title">Staff Feedback  Page </h3>
+                        {% include 'common_files/messages.html' %}
+                        <ul class="breadcrumb">
+                           <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                           <li class="breadcrumb-item active">Staff Feedback</li>
+                        </ul>
+                     </div>
+                     <div class="col-auto text-right float-right ml-auto">
+                        <!-- modal  -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter1">
+                        Launch demo modal
+                        </button>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>Name</th>
+                                       <th>Message</th>
+                                       <th class="text-right">Action</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for staff in staff_feedback %} 
+                                    <tr>
+                                       <td>{{staff.id}}</td>
+                                       <td>
+                                          <h2 class="table-avatar">
+                                             <a href="student-details.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="/{{staff.staff.user.profile_pic}}" alt="User Image"></a>
+                                             <a href="student-details.html">{{staff.staff.user.first_name}}&nbsp;{{staff.staff.user.last_name}}</a>
+                                          </h2>
+                                       </td>
+                                       <td>{{staff.feedback_msg}}</td>
+                                       
+                                       <td class="text-right">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter-{{ forloop.counter}}">
+                                            Reply 
+                                            </button>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+<!-- Modal for Send Reply  -->
+{% for i in staff_feedback %}
+<div class="modal fade" id="exampleModalCenter-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Replied to: </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card p-3">
+            <form action="" method="post">
+                {% csrf_token %} 
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Reply Message</label>
+                    <input type="text" name="feedback_id" value="{{ i.id }}" id="exampleInputEmail1" hidden >
+                    <textarea type="text" name="reply_msg" class="form-control" id="exampleInputEmail1" style="height:150px"> </textarea>
+                </div>
+                <button class="btn btn-primary" type="submit" >Send</button>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<!-- See last 5 Notification : Modal  -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>Name</th>
+                                       <th>Message</th>
+                                       <th class="text-right">Reply</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for staff in staff_feedback %} 
+                                    <tr>
+                                       <td>
+                                          <h2 class="table-avatar">
+                                             
+                                             <a href="student-details.html">{{staff.staff.user.first_name}}&nbsp;{{staff.staff.user.last_name}}</a>
+                                          </h2>
+                                       </td>
+                                       <td>{{staff.feedback_msg}}</td>
+                                       
+                                       <td class="text-right">
+                                            {{staff.replyback_msg}}
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- End of Modal: see all notification's -->
+
+{% endblock %}  

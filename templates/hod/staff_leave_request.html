@@ -1,0 +1,76 @@
+{% extends 'base.html' %} 
+{% block content %} 
+
+<div class="content container-fluid">
+               <div class="page-header">
+                  <div class="row align-items-center">
+                     <div class="col">
+                        <h3 class="page-title">Staff Leave Request </h3>
+                        {% include 'common_files/messages.html' %}
+                        <ul class="breadcrumb">
+                           <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                           <li class="breadcrumb-item active">Staff Leave Request </li>
+                        </ul>
+                     </div>
+                     <div class="col-auto text-right float-right ml-auto">
+                        <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+                        <a href="add-student.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                     </div>
+                  </div>
+               </div>
+
+
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>Name</th>
+                                       <th>Date</th>
+                                       <th>Message</th>
+                                       <th class="text-right">Action</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for i in leave %} 
+                                    <tr>
+                                       <td>{{i.staff.id}}</td>
+                                     
+                                       <td>{{i.staff.user.username}}</td>
+                                       <td>{{i.leave_date}}</td>
+                                       <td>{{i.message}}</td>
+                                       
+                                      
+                                       <td class="text-right">
+                                          <div class="actions">
+                                            {% if i.status == 0 %} 
+                                             <a href="{% url 'staff_leave_request_approve' i.id %}" class="btn btn-outline-success  mr-2">
+                                             <i class="fas fa-thumbs-up">&nbsp;Approve</i>
+                                             </a>
+                
+                                             <a href="{% url 'staff_leave_request_disapprove' i.id %}" class="btn btn-outline-danger ">
+                                             <i class="fas fa-thumbs-down">&nbsp;Disapprove</i>
+                                             </a>
+                                             {% elif i.status == 1 %} 
+                                             <button class="btn btn-success disabled">Approved</button>
+                                             {% else %} 
+                                            <button class="btn btn-warning disabled">Disapproved</button>
+
+                                             {% endif %}  
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+{% endblock %} 
