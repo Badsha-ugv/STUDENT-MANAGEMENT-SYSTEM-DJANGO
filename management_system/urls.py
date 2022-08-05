@@ -45,23 +45,31 @@ urlpatterns = [
     path('hod/update_session/<str:id>/',hod_views.update_session,name='update_session'),
     path('hod/delete_session/<str:id>/',hod_views.delete_session,name='delete_session'),
         #NOTIFICATION 
-    path('hod/staff_notification/',hod_views.notification,name='staff_notification'),
-    path('hod/student_notification/',hod_views.student_notification,name='student_notification'),
+    path('hod/send_staff_notification/',hod_views.send_staff_notification,name='send_staff_notification'),
+    
+    path('hod/send_student_notification/',hod_views.send_student_notification,name='send_student_notification'),
 
-
+     path('hod/save_student_notification/',hod_views.save_student_notification,name='save_student_notification'),
         #LEAVE-STAFF
     path('hod/staff_leave_request/',hod_views.staff_leave_request,name = 'staff_leave_request'),
     path('hod/staff_leave_request/approve_btn/<str:id>/',hod_views.staff_leave_request_approve,name = 'staff_leave_request_approve'),
-    
     path('hod/staff-leave-request/disapprove_btn/<str:id>/',hod_views.staff_leave_request_disapprove,name = 'staff_leave_request_disapprove'),
+    
+        #LEAVE STUDENT 
+    path('hod/leave_student_hod',hod_views.leave_student_hod,name='leave_student_hod'),
+    path('hod/student_leave_request_approve/<str:id>/',hod_views.student_leave_request_approve,name='student_leave_request_approve'),
+    path('hod/student_leave_request_disapprove/<str:id>/',hod_views.student_leave_request_disapprove,name='student_leave_request_disapprove'),
+
+    
         #FEEDBACK
     path('hod/staff_feedback/',hod_views.staff_feedback,name='staff_feedback'),
-
+    path('hod/student_feedback_hod/',hod_views.student_feedback_hod,name='student_feedback_hod'),
 
     #STAFF - SECTION
     path('staff/',staff_views.staff_home,name='staff_home'),
-    path('staff/notification',staff_views.notification,name='notification'),
-    path('staff/notificatoin/msg_seen/<str:id>/',staff_views.msg_seen,name='msg_seen'),
+    
+    path('staff/staff_notification/',staff_views.staff_notification,name='staff_notification'),
+    path('staff/seen_staff_notification/<str:id>/',staff_views.seen_staff_notification,name='seen_staff_notification'),
 
     path('staff/staff_leave/',staff_views.staff_leave,name='staff_leave'),
     path('staff/staff_leave_save/',staff_views.staff_leave_save,name='staff_leave_save'),
@@ -69,10 +77,19 @@ urlpatterns = [
     path('staff/send_feedback/',staff_views.send_feedback,name='send_feedback'),
     path('staff/save_feedback_msg/',staff_views.save_feedback_msg,name='save_feedback_msg'),
 
+    path('staff/take_attendance/',staff_views.take_attendance,name='take_attendance'),
     #STUDENT 
     path('student/',student_views.home,name='student_home'),
-    path('student/see_notification/',student_views.see_notification,name='see_notification'),
+    path('student/student_notification/',student_views.student_notification,name='student_notification'),
 
+    path('student/seen_student_notification/<str:id>/',student_views.seen_student_notification,name='seen_student_notification'),
+    path('student/student_feedback/',student_views.student_feedback,name='student_feedback'),
+    path('student/send_student_feedback/',student_views.send_student_feedback,name='send_student_feedback'),
+    
+    path('student/student_leave/',student_views.student_leave,name='student_leave'),
+    path('student/student_leave_save/',student_views.student_leave_save,name='student_leave_save'),
+
+    
     #profile_update
     path('update_profile/',views.update_profile,name='update_profile'),
     path('profile_update_form/',views.profile_update_form,name='profile_update_form'),

@@ -6,17 +6,17 @@
                <div class="page-header">
                   <div class="row align-items-center">
                      <div class="col">
-                        <h3 class="page-title">Student Notification</h3>
+                        <h3 class="page-title">Student Feedback  Page </h3>
                         {% include 'common_files/messages.html' %}
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                           <li class="breadcrumb-item active">Student Notification </li>
+                           <li class="breadcrumb-item active">Student Feedback</li>
                         </ul>
                      </div>
                      <div class="col-auto text-right float-right ml-auto">
                         <!-- modal  -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter1">
-                        View All Notification's
+                        All Recent Feedback 
                         </button>
                      </div>
                   </div>
@@ -31,25 +31,25 @@
                                     <tr>
                                        <th>ID</th>
                                        <th>Name</th>
-                                       <th>Email</th>
+                                       <th>Message</th>
                                        <th class="text-right">Action</th>
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    {% for i in students %} 
+                                    {% for i in student_feedback %} 
                                     <tr>
                                        <td>{{i.id}}</td>
                                        <td>
                                           <h2 class="table-avatar">
-                                             <a href="student-details.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="/{{i.user.profile_pic}}" alt="User Image"></a>
-                                             <a href="student-details.html">{{i.user.first_name}}&nbsp;{{i.user.last_name}}</a>
+                                             <a href="student-details.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="/{{i.student.user.profile_pic}}" alt="User Image"></a>
+                                             <a href="student-details.html">{{i.student.user.first_name}}&nbsp;{{i.student.user.last_name}}</a>
                                           </h2>
                                        </td>
-                                       <td>{{i.user.email}}</td>
+                                       <td>{{i.feedback_msg}}</td>
                                        
                                        <td class="text-right">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter-{{ forloop.counter }}">
-                                            Send Notification
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter-{{ forloop.counter}}">
+                                            Reply 
                                             </button>
                                           </div>
                                        </td>
@@ -63,26 +63,30 @@
                   </div>
                </div>
             </div>
-            <!-- Modal for Send Notification  -->
-{% for i in students %} 
+
+<!-- Modal for Send Reply  -->
+{% for i in student_feedback %}
 <div class="modal fade" id="exampleModalCenter-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Send to: {{i.user.username }}</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Replied to: </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="{% url 'save_student_notification' %}" method="post" >
+        <div class="card p-3">
+            <form action="" method="post">
                 {% csrf_token %} 
-                <div class="form-group ">
-                    <textarea type="text" class="form-control" id="exampleCheck1" name="msg"></textarea>
-                    <input type="text" name="student_id" value="{{ i.user.id }}" id="" hidden >
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Reply Message</label>
+                    <input type="text" name="feedback_id" value="{{ i.id }}" id="exampleInputEmail1" hidden >
+                    <textarea type="text" name="reply_msg" class="form-control" id="exampleInputEmail1" style="height:150px"> </textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary" type="submit" >Send</button>
             </form>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -90,10 +94,11 @@
     </div>
   </div>
 </div>
-{% endfor %} 
-
+{% endfor %}
 <!-- See last 5 Notification : Modal  -->
 
+
+<!-- Modal -->
 <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -104,39 +109,37 @@
         </button>
       </div>
       <div class="modal-body">
-        
-        <div class="table-responsive">
-               <table class="table table-hover table-center mb-0 datatable">
-                  <thead>
-                     <tr>
-                        <th>Name</th>
-                        <th>Message</th>
-
-
-                        <th class="text-right">Status</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {% for i in notification_list %}
-                     <tr>
-                        <td>{{i}}</td>
-
-                        <td>{{i.message}}</td>
-
-                        <td class="text-right">
-                           {% if i.status == 0 %}
-                           <p><i> not seen</i></p>
-                           {% else %}
-                           <p><i>seen</i></p>
-                           {% endif %}
-
-                        </td>
-                     </tr>
-                     {% endfor %}
-                  </tbody>
-               </table>
-            </div>
-        
+           <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>Name</th>
+                                       <th>Message</th>
+                                       <th class="text-right">Reply</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for i in student_feedback %} 
+                                    <tr>
+                                       <td>
+                                          <h2 class="table-avatar">
+                                             
+                                             <a href="student-details.html">{{i.student.user.first_name}}&nbsp;{{i.student.user.last_name}}</a>
+                                          </h2>
+                                       </td>
+                                       <td>{{i.feedback_msg}}</td>
+                                       
+                                       <td class="text-right">
+                                            {{i.replyback_msg}}
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,6 +147,8 @@
     </div>
   </div>
 </div>
+
+
 
 <!-- End of Modal: see all notification's -->
 

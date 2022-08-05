@@ -1,0 +1,99 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Student Leave </h3>
+        {% include 'common_files/messages.html' %}
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+          <li class="breadcrumb-item active">Student </li>
+        </ul>
+      </div>
+      <div class="col-auto text-right float-right ml-auto">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+          Leave Status 
+        </button>
+       
+      </div>
+    </div>
+  </div>
+  <!-- End of Header and Button  -->
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Student Leave</h2>
+    </div>
+    <div class="card-body">
+      <form action="{% url 'student_leave_save' %}" method="post">
+        {% csrf_token %} 
+        <div class="form-group">
+          <label for="exampleInputEmail1">Leave Date </label>
+          <input
+            type="date"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="leave_date"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail2">Message </label>
+          <textarea
+            class="form-control"
+            id="exampleInputEmail2"
+            name="leave_message"
+          > </textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Apply for Leave</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Status History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table-bordered w-100 table-dark">
+          <tr>
+            <th>Date</th>
+            <th class="p-3">Message</th>
+            <th>Status</th>
+          </tr>
+          {% for i in student_leave %} 
+          <tr>
+            <td>{{i.leave_date }}</td>
+            <td class="p-2"><p>{{ i.message }}</p></td>
+            {% if i.status == 0 %} 
+            <td><p><i class="text-muted">Pending</i></p></td>
+            {% elif i.status == 1 %} 
+            <td><p><i class="text-success">Approved</i></p></td>
+            {% else %} 
+            <td><p><i class="text-danger">Dis-Approved</i></p></td>
+            {% endif %} 
+            
+          </tr>
+          {% endfor %}
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -100,4 +100,44 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.staff.user.first_name + " "+self.staff.user.last_name 
+
+class StudentFeedback(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE) 
+    feedback_msg = models.TextField()
+    replyback_msg = models.TextField(null=True,blank=True)  
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.student.user.first_name + " "+self.student.user.last_name 
         
+class StudentLeave(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    leave_date = models.CharField(max_length=100) 
+    message = models.TextField() 
+    status = models.IntegerField(null=True,default=0 )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.student.user.first_name + " "+ self.student.user.last_name 
+
+class TakeAttendance(models.Model):
+    subject = models.ForeignKey(Subject,on_delete=models.DO_NOTHING)
+    session = models.ForeignKey(SessionYear,on_delete=models.DO_NOTHING) 
+    attendance_date = models.DateField() 
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.subject.name 
+
+class AttendanceReport(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.DO_NOTHING) 
+    attendance = models.ForeignKey(TakeAttendance,on_delete=models.DO_NOTHING) 
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True) 
+
+
+    def __str__(self):
+        return self.student.user.username 

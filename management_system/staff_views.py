@@ -7,22 +7,17 @@ def staff_home(request):
 
     return render(request,'staff/staff_home.html') 
 
-def notification(request):
-    curret_user = request.user.id
-    staff_id = Staff.objects.filter(user= curret_user)
-    for i in staff_id:
-        staff = i.id
-        # print(staff_id)
-        notifications = Notification.objects.filter(staff=staff)
-        context = {'notification': notifications}
-        return render(request, 'staff/view_notification.html',context)
+def staff_notification(request):
+    current_stuff = Staff.objects.get(user=request.user.id) 
+    staff_notification_list = Notification.objects.filter(staff=current_stuff) 
+    context = {'staff_notification':staff_notification_list}
+    return render(request, 'staff/view_staff_notification.html',context)  
 
-def msg_seen(request,id):
-
-    notification = Notification.objects.get(id=id) 
-    notification.status = 1
-    notification.save()
-    return redirect('notification')
+def seen_staff_notification(request,id):
+    staff_notification = Notification.objects.get(id=id) 
+    staff_notification.status = 1
+    staff_notification.save()
+    return redirect('staff_notification')
 
 def staff_leave(request):
     stafff = Staff.objects.filter(user=request.user.id) 
@@ -69,3 +64,6 @@ def save_feedback_msg(request):
         messages.success(request,'Feedback Message Sent!') 
         return redirect('send_feedback') 
     return redirect('send_feedback') 
+
+def take_attendance(request):
+    pass 

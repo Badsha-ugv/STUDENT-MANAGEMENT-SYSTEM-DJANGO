@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Feedback Page</h3>
+        {% include 'common_files/messages.html' %}
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+          <li class="breadcrumb-item active">Feedback</li>
+        </ul>
+      </div>
+      <div class="col-auto text-right float-right ml-auto">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+          Feedback Reply 
+        </button>
+       
+      </div>
+    </div>
+  </div>
+  <!-- End of Header and Button  -->
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Send Feedback</h2>
+    </div>
+    <div class="card-body">
+      <form action="{% url 'send_student_feedback' %}" method="post">
+        {% csrf_token %} 
+        
+        <div class="form-group">
+          <label for="exampleInputEmail2">Message </label>
+          <textarea
+            class="form-control"
+            id="exampleInputEmail2"
+            name="message"
+            style="height:150px"
+          > </textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Status History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table-bordered w-100 table-dark ">
+          <tr>
+            <th class="p-2">Id</th>
+            <th class="p-2">Message</th>
+            <th class="p-2">Reply</th>
+          </tr>
+          {% for i in feedback %} 
+          <tr>
+            <td class="p-2">{{i.id }}</td>
+            <td class="p-2"><p>{{ i.feedback_msg }}</p></td>
+            <td class="p-2"><p>{{ i.replyback_msg }}</p></td>
+          </tr>
+          {% endfor %}
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
