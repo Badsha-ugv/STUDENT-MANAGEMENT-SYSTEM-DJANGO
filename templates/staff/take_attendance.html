@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+
+
+
+<div class="card m-3 p-3">
+  <form
+    action=""
+    method="POST"
+  >
+    {% csrf_token %}
+    
+    <!-- <div class="form-group">
+      <label for="exampleInputPassword1">Subject Name </label>
+      <input
+        type="text"
+        class="form-control"
+        name="subject_name"
+        id="exampleInputPassword1"
+        required
+      />
+    </div> -->
+    
+
+    
+    <div class="form-group">
+        <label>Subject</label>
+            <select class="form-control" name="staff" required>
+                <option>Select Subject</option>
+               {% for i in subject %} 
+                <option value="{{ i.id }}">{{ i.name }} </option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+
+    <div class="form-group">
+        <label>Session</label>
+            <select class="form-control" name="course" required>
+                <option>Select Session</option>
+               {% for i in session %} 
+                <option value="{{ i.id }}">{{ i.start_date }} to {{ i.end_date }}</option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Fetch Student</button>
+  </form>
+</div>
+
+
+
+
+
+
+
+{% endblock %} 

@@ -1,6 +1,6 @@
 
 from django.shortcuts import render,redirect
-from sms_app.models import Staff,Notification,StaffLeave,Feedback
+from sms_app.models import Staff,Notification,StaffLeave,Feedback,Subject,SessionYear
 from django.contrib import messages
 
 def staff_home(request):
@@ -66,4 +66,11 @@ def save_feedback_msg(request):
     return redirect('send_feedback') 
 
 def take_attendance(request):
-    pass 
+    staff = Staff.objects.get(user=request.user.id) 
+    subject = Subject.objects.filter(staff=staff) 
+    session = SessionYear.objects.all() 
+    context = {
+        'subject':subject,
+        'session':session,
+    }
+    return render(request,'staff/take_attendance.html',context)   
