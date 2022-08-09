@@ -73,8 +73,8 @@
             <li><a href="{% url 'add_session' %}">Add Session </a></li>
           </ul>
         </li>
-        <li class="{% active_link '' %}">
-          <a href="holiday.html"
+        <li class="{% active_link 'view_all_attendance' %}">
+          <a href="{% url 'view_all_attendance' %}"
             ><i class="fas fa-clipboard-list"></i
             ><span>View Attendence</span></a
           >
@@ -131,13 +131,13 @@
             ><i class="fas fa-calendar-alt"></i><span>Take Attendence</span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'view_attendance' %}">
+          <a href="{% url 'view_attendance' %}"
             ><i class="fas fa-calendar-alt"></i><span>View Attendence</span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'add_result' %}">
+          <a href="{% url 'add_result' %}"
             ><i class="fas fa-poll-h"></i><span>Add Result</span></a
           >
         </li>
@@ -175,13 +175,13 @@
             ><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'view_attendance_student' %}">
+          <a href="{% url 'view_attendance_student' %}"
             ><i class="fas fa-calendar"></i><span>View Attendence</span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'view_result' %}">
+          <a href="{% url 'view_result' %}"
             ><i class="fas fa-poll"></i><span>View Result</span></a
           >
         </li>

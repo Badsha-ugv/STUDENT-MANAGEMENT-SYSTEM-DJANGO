@@ -1,0 +1,133 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+
+
+{% if action is None %} 
+<div class="card m-3 p-3">
+  <form
+    action="?action=view_attendance" 
+    method="POST"
+  >
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label>Subject</label>
+            <select class="form-control" name="subject_id" required>
+                <option>Select Subject</option>
+               {% for i in subject %} 
+                <option value="{{ i.id }}">{{ i.name }} </option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+
+    <div class="form-group">
+        <label>Session</label>
+            <select class="form-control" name="session_id" required>
+                <option>Select Session</option>
+               {% for i in session %} 
+                <option value="{{ i.id }}">{{ i.start_date }} to {{ i.end_date }}</option>
+                {% endfor %} 
+               
+            </select>
+    </div>
+    <div class="form-group">
+        <label>Date</label>
+            <input type="date" name="attendance_date" class="form-control" >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Fetch Student</button>
+  </form>
+
+
+  {% else %} 
+
+<form
+    action=""
+    method="POST"
+    class="m-4 p-3"
+  >
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label>Subject</label>
+            <select class="form-control" name="subject_id" disabled>
+                
+             
+                <option value="{{ get_subject.id }}">{{ get_subject }} </option>
+              
+               
+            </select>
+    </div>
+
+    <div class="form-group">
+        <label>Session</label>
+            <select class="form-control" name="session_id" disabled>
+               
+                <option value="{{get_session.id }}">{{ i.start_date }} to {{ get_session }}</option>
+              
+               
+            </select>
+    </div>
+     <div class="form-group">
+      <label for="exampleInputPassword1">Attendance Date</label>
+      <input
+        type="date"
+        class="form-control"
+        name="attendance_date"
+        id="exampleInputPassword1"
+        value="{{attendance_date}}"
+        disabled
+      />
+    </div>
+    {% for i in students %} 
+    <div class="form-check my-3">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="students_id" value="{{i.id}}" disabled>
+    <label class="form-check-label" for="exampleCheck1">{{i.user.first_name}}&nbsp;{{i.user.last_name}}</label>
+    </div>
+    {% endfor %} 
+
+    <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>Name</th>
+                                       
+                                       <th>Email</th>
+                                       <th>Created</th>
+
+                                     
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for i in attendance_report %} 
+                                    <tr>
+                                       <td>{{i.student.user.id}}</td>
+                                       
+                                       <td>{{i.student.user.first_name}}&nbsp;{{ i.student.user.last_name }}</td>
+                                       
+                                       <td>{{i.student.user.email}}</td>
+                                       <td>{{i.created_at}}</td>
+                                       
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+  </form>
+
+</div>
+{% endif %}  
+
+
+{% endblock %} 

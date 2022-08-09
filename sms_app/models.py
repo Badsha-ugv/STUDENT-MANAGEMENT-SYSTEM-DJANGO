@@ -141,3 +141,14 @@ class AttendanceReport(models.Model):
 
     def __str__(self):
         return self.student.user.username 
+
+class StudentResult(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE) 
+    subject = models.ForeignKey(Subject , on_delete=models.CASCADE)
+    exam_mark = models.IntegerField() 
+    assignment_mark = models.IntegerField() 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.student.user.first_name+' '+self.student.user.last_name 

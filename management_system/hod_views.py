@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from requests import session
 from django.contrib import messages
-from sms_app.models import Student,Course,SessionYear,CustomUser,Staff,Subject,Notification,StaffLeave,Feedback,StudentNotification,StudentFeedback,StudentLeave
+from sms_app.models import Student,Course,SessionYear,CustomUser,Staff,Subject,Notification,StaffLeave,Feedback,StudentNotification,StudentFeedback,StudentLeave,AttendanceReport,TakeAttendance
 
 @login_required(login_url='/')
 def home(request):
@@ -212,6 +212,7 @@ def delete_course(request,id):
     messages.success(request,'Course Delete Successfully!')
     return redirect('view_course')
 
+@login_required(login_url='/')
 def add_staff(request):
     if request.method == 'POST':
         profile_pic = request.FILES.get('profile_pic')
@@ -303,7 +304,7 @@ def delete_staff(request,id):
     messages.success(request,'Delete Staff Successfully!') 
     return redirect('view_staff') 
 
-
+@login_required(login_url='/')
 def add_subject(request):
     staff = Staff.objects.all() 
     course = Course.objects.all() 
@@ -330,13 +331,13 @@ def add_subject(request):
     }
     return render(request,'hod/add_subject.html',context)  
 
-
+@login_required(login_url='/')
 def view_subject(request):
     subject = Subject.objects.all() 
     
     context = {'subjects':subject} 
     return render(request,'hod/view_subject.html',context) 
-
+@login_required(login_url='/')
 def edit_subject(request,id):
     subject = Subject.objects.get(id=id) 
     staff   = Staff.objects.all()
@@ -363,7 +364,7 @@ def edit_subject(request,id):
     'courses':course,
     } 
     return render(request,'hod/edit_subject.html',context)  
-
+@login_required(login_url='/')
 def delete_subject(request,id):
     subject = Subject.objects.get(id=id) 
     subject.delete() 
@@ -371,7 +372,7 @@ def delete_subject(request,id):
     return redirect('view_subject') 
 
 # Session
-
+@login_required(login_url='/')
 def add_session(request):
     if request.method == 'POST':
         start_date = request.POST.get('start_session')
@@ -387,12 +388,12 @@ def add_session(request):
 
 
     return render(request,'hod/add_session.html') 
-
+@login_required(login_url='/')
 def view_session(request):
     session = SessionYear.objects.all() 
     context = {'session':session}
     return render(request, 'hod/view_session.html',context) 
-
+@login_required(login_url='/')
 def update_session(request,id):
     session = SessionYear.objects.get(id=id)
 
@@ -407,13 +408,14 @@ def update_session(request,id):
         return redirect('view_session') 
     context = {'session':session} 
     return render(request, 'hod/update_session.html',context)  
-
+@login_required(login_url='/')
 def delete_session(request,id):
     session = SessionYear.objects.get(id=id) 
     session.delete() 
     messages.success(request,'Session Delete Successfully!') 
     return redirect('view_session') 
-    
+
+@login_required(login_url='/')
 def send_staff_notification(request):
     staff = Staff.objects.all() 
     notification = Notification.objects.all().order_by('-id')[:5]
@@ -438,18 +440,25 @@ def send_staff_notification(request):
     context = {'staff_list':staff,'notifications':notification} 
     return render(request, 'hod/notification.html',context)  
 
-
+@login_required(login_url='/')
 def staff_leave_request(request):
     leave_request = StaffLeave.objects.all().order_by('-id')
     context = {'leave':leave_request}
     return render(request, 'hod/staff_leave_request.html',context) 
 
+
+
+
+@login_required(login_url='/')
 def staff_leave_request_approve(request,id):
     leave = StaffLeave.objects.get(id=id) 
     leave.status = 1
     leave.save() 
     return redirect('staff_leave_request') 
 
+
+
+@login_required(login_url='/')
 def staff_leave_request_disapprove(request,id):
     leave = StaffLeave.objects.get(id=id) 
     leave.status = 2
@@ -457,6 +466,7 @@ def staff_leave_request_disapprove(request,id):
     return redirect('staff_leave_request') 
 
 
+@login_required(login_url='/')
 def staff_feedback(request):
     stf_feedback = Feedback.objects.all()
     if request.method == 'POST':
@@ -472,6 +482,7 @@ def staff_feedback(request):
     context = {'staff_feedback':stf_feedback} 
     return render(request,'hod/staff_feedback.html',context)  
 
+@login_required(login_url='/')
 def send_student_notification(request):
     student= Student.objects.all() 
     notification_list = StudentNotification.objects.all().order_by('-id')[:5]
@@ -482,6 +493,7 @@ def send_student_notification(request):
     } 
     return render(request, 'hod/student_notification.html',context) 
 
+@login_required(login_url='/')
 def save_student_notification(request):
 
     if request.method == 'POST':
@@ -497,6 +509,7 @@ def save_student_notification(request):
         messages.success(request,'Send Notificaion Successfully!') 
         return redirect('send_student_notification')
 
+@login_required(login_url='/')
 def student_feedback_hod(request):
     student_feedback = StudentFeedback.objects.all() 
     if request.method == 'POST':
@@ -512,19 +525,66 @@ def student_feedback_hod(request):
     return render(request,'hod/student_feedback.html',context)  
 
 
+@login_required(login_url='/')
 def leave_student_hod(request):
     leave = StudentLeave.objects.all() 
     context = {'student_leave':leave}
     return render(request, 'hod/leave_student_hod.html',context)   
 
+
+@login_required(login_url='/')
 def student_leave_request_disapprove(request,id):
     leave = StudentLeave.objects.get(id=id) 
     leave.status = 2
     leave.save() 
     return redirect('leave_student_hod')
 
+@login_required(login_url='/')
 def student_leave_request_approve(request,id):
     leave = StudentLeave.objects.get(id=id) 
     leave.status = 1
     leave.save() 
     return redirect('leave_student_hod')
+
+
+@login_required(login_url='/')
+def view_all_attendance(request):
+    
+    
+    subject = Subject.objects.all() 
+    session = SessionYear.objects.all() 
+
+    action = request.GET.get('action')
+
+    get_session = None 
+    get_subject = None 
+    attendance_report = None 
+    attendance_date = None 
+    
+    if action is not None:
+        if request.method == 'POST':
+            subject_id = request.POST.get('subject_id')
+            session_id = request.POST.get('session_id')
+            attendance_date = request.POST.get('attendance_date') 
+
+            get_subject = Subject.objects.get(id=subject_id)
+            get_session = SessionYear.objects.get(id=session_id)
+
+            attendance = TakeAttendance.objects.filter(subject=get_subject,attendance_date=attendance_date) 
+            for i in attendance:
+                attendance_id  = i.id
+                attendance_report = AttendanceReport.objects.filter(attendance=attendance_id) 
+
+
+
+    context = {
+        'subject':subject,
+        'session':session,
+        'action':action,
+        'get_subject':get_subject,
+        'get_session':get_session, 
+        'attendance_date':attendance_date,
+        'attendance_report':attendance_report,
+
+    }
+    return render (request, 'hod/view_all_attendance.html',context)  

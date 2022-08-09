@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser,Course,SessionYear,Student,Staff,Subject,Notification,StaffLeave,Feedback,StudentNotification,StudentFeedback,StudentLeave,TakeAttendance,AttendanceReport
+from .models import CustomUser,Course,SessionYear,Student,Staff,Subject,Notification,StaffLeave,Feedback,StudentNotification,StudentFeedback,StudentLeave,TakeAttendance,AttendanceReport,StudentResult
 # Register your models here.
 
 class UserModel(UserAdmin):
@@ -21,3 +21,4 @@ admin.site.register(StudentFeedback)
 admin.site.register(StudentLeave) 
 admin.site.register(TakeAttendance) 
 admin.site.register(AttendanceReport) 
+admin.site.register(StudentResult) 

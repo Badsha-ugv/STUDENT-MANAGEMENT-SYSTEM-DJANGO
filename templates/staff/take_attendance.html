@@ -3,10 +3,10 @@
 {% block content %} 
 
 
-
+{% if action is None %} 
 <div class="card m-3 p-3">
   <form
-    action=""
+    action="?action=get_student"
     method="POST"
   >
     {% csrf_token %}
@@ -26,7 +26,7 @@
     
     <div class="form-group">
         <label>Subject</label>
-            <select class="form-control" name="staff" required>
+            <select class="form-control" name="subject_id" required>
                 <option>Select Subject</option>
                {% for i in subject %} 
                 <option value="{{ i.id }}">{{ i.name }} </option>
@@ -37,7 +37,7 @@
 
     <div class="form-group">
         <label>Session</label>
-            <select class="form-control" name="course" required>
+            <select class="form-control" name="session_id" required>
                 <option>Select Session</option>
                {% for i in session %} 
                 <option value="{{ i.id }}">{{ i.start_date }} to {{ i.end_date }}</option>
@@ -48,6 +48,56 @@
 
     <button type="submit" class="btn btn-primary">Fetch Student</button>
   </form>
+  {% else %} 
+
+<form
+    action="{% url 'save_attendance' %}"
+    method="POST"
+    class="m-4 p-3"
+  >
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label>Subject</label>
+            <select class="form-control" name="subject_id" required>
+                
+             
+                <option value="{{ get_subject.id }}">{{ get_subject }} </option>
+              
+               
+            </select>
+    </div>
+
+    <div class="form-group">
+        <label>Session</label>
+            <select class="form-control" name="session_id" required>
+               
+                <option value="{{get_session.id }}">{{ i.start_date }} to {{ get_session }}</option>
+              
+               
+            </select>
+    </div>
+     <div class="form-group">
+      <label for="exampleInputPassword1">Attendance Date</label>
+      <input
+        type="date"
+        class="form-control"
+        name="attendance_date"
+        id="exampleInputPassword1"
+        required
+      />
+    </div>
+    {% for i in students %} 
+    <div class="form-check my-3">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="students_id" value="{{i.id}}">
+    <label class="form-check-label" for="exampleCheck1">{{i.user.first_name}}&nbsp;{{i.user.last_name}}</label>
+    </div>
+    {% endfor %} 
+
+    <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+
+  {% endif %} 
 </div>
 
 

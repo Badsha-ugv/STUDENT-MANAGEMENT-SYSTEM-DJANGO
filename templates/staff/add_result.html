@@ -1,0 +1,86 @@
+{% extends 'base.html' %} 
+
+{% block content %}  
+<div>
+    {% include 'common_files/messages.html' %} 
+</div>
+{% if action is None %}  
+<div class="card m-3">
+    <div class="card-body">
+        <form action="?action=add_result" method="POST" class="form-group">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <label for="">Subject</label>
+                    <select name="subject_id" id="" class="form-control">
+                        <option value="">--Select Subject--</option>
+                        {% for i in subject %}  
+                        <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endfor %} 
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="">Session</label>
+                    <select name="session_id" id="" class="form-control">
+                        <option value="">--Select Session--</option>
+                        {% for i in session %} 
+                        <option value="{{ i.id }}"> {{ i.start_date }} to {{i.end_date }}</option>
+                        {% endfor %} 
+                    </select>
+                </div>
+                
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</div>
+{% else %} 
+
+<div class="card m-3">
+    <div class="card-body">
+        <form action="{% url 'save_student_result' %}" method="post" class="form-group">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <label for="">Subject</label>
+                    <select name="subject_id" id="" class="form-control">
+                        <option value="{{ get_subject.id }}">{{get_subject}}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="">Session</label>
+                    <select name="session_id" id="" class="form-control">
+                        <option value="{{ get_session.id }}">{{get_session}}</option>
+                    </select>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Student List</label>
+                    <select name="student_id" id="" class="form-control">
+                        {% for i in students %}  
+                        <option value="{{ i.user.id}}">{{i.user.first_name}}&nbsp;{{i.user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Exam Mark</label> 
+                    <input type="number" name='exam_mark' class="form-control">
+                </div>
+                <div class="col">
+                    <label for="">Assignment Mark</label> 
+                    <input type="number" name="assignment_mark" class="form-control">
+                </div>
+                
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endif %}  
+{% endblock %}  

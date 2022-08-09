@@ -64,7 +64,12 @@ urlpatterns = [
         #FEEDBACK
     path('hod/staff_feedback/',hod_views.staff_feedback,name='staff_feedback'),
     path('hod/student_feedback_hod/',hod_views.student_feedback_hod,name='student_feedback_hod'),
+        #ATTENDANCE 
+    path('hod/view_all_attendance/',hod_views.view_all_attendance,name='view_all_attendance'),
+    
+    
 
+    
     #STAFF - SECTION
     path('staff/',staff_views.staff_home,name='staff_home'),
     
@@ -78,6 +83,14 @@ urlpatterns = [
     path('staff/save_feedback_msg/',staff_views.save_feedback_msg,name='save_feedback_msg'),
 
     path('staff/take_attendance/',staff_views.take_attendance,name='take_attendance'),
+    path('staff/save_attendance/',staff_views.save_attendance,name='save_attendance'),
+
+    path('staff/view_attendance/',staff_views.view_attendance,name='view_attendance'),
+
+    # Add Student Result
+    path('staff/add_result/',staff_views.add_result,name='add_result'),
+    #Save Student Result
+    path('staff/save_student_result/',staff_views.save_student_result,name='save_student_result'),
     #STUDENT 
     path('student/',student_views.home,name='student_home'),
     path('student/student_notification/',student_views.student_notification,name='student_notification'),
@@ -89,7 +102,9 @@ urlpatterns = [
     path('student/student_leave/',student_views.student_leave,name='student_leave'),
     path('student/student_leave_save/',student_views.student_leave_save,name='student_leave_save'),
 
-    
+    path('student/view_attendance_student/',student_views.view_attendance_student,name='view_attendance_student'),
+
+    path('student/view_result/',student_views.view_result,name='view_result'),
     #profile_update
     path('update_profile/',views.update_profile,name='update_profile'),
     path('profile_update_form/',views.profile_update_form,name='profile_update_form'),
